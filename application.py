@@ -15,8 +15,13 @@ def search():
 	term = request.form['keyword']
 	print term
 	res = omdb.get(title=term)
-	rating = res.imdb_rating
-	return render_template('ratings.html', rate=rating)
+	imdb_rating = res.imdb_rating
+	plot = res.plot
+	overall_rating = 8
+	youtube_rating = 4
+	twitter_rating = 6
+	return render_template('ratings.html', keyword=term, plot=plot, imdb_rating=imdb_rating, twitter_rating=twitter_rating, \
+		youtube_rating=youtube_rating, overall_rating=overall_rating)
 
 if __name__ == '__main__':
     app.run(
