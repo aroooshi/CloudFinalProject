@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 
-</script>
 <html lang="en">
 
 <head>
@@ -137,7 +136,7 @@
         <!-- Intro Content -->
         <div class="row">
             <div class="col-md-6">
-                <img class="img-responsive" src=" {{ url_for('static',filename='Images/'+string(overall_rating)+'.png')}}" alt="">
+                <img class="img-responsive" src=" {{ url_for('static',filename=overall_img) }} " alt="">
             </div>
             <div class="col-md-6">
                 <h2>Social Rating</h2>
@@ -156,7 +155,7 @@
             </div>
             <div class="col-md-4 text-center">
                 <div class="thumbnail">
-                    <img class="img-responsive" src="Images/{{ twitter_img }}.png" alt="">
+                    <img class="img-responsive" src=" {{ url_for('static',filename=twitter_img) }} " alt="">
                     <div class="caption">
                         <h3>Rating: {{ twitter_rating }}</h3>
                             <h4>Twitter Rating</h4>
@@ -167,7 +166,7 @@
             </div>
             <div class="col-md-4 text-center">
                 <div class="thumbnail">
-                    <img class="img-responsive" src="Images/{{ youtube_img }}.png" alt="">
+                    <img class="img-responsive" src=" {{ url_for('static',filename=youtube_img) }} " alt="">
                     <div class="caption">
                         <h3>Rating: {{ youtube_rating }}</h3>
                             <h4>YouTube Rating</h4>
@@ -176,9 +175,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Media Ratings</h2>
+            </div>
             <div class="col-md-4 text-center">
                 <div class="thumbnail">
-                    <img class="img-responsive" src="{{ imdb_img }}" alt="">
+                    <img class="img-responsive" src=" {{ url_for('static',filename=imdb_img) }} " alt="">
                     <div class="caption">
                         <h3>Rating: {{ imdb_rating }}</h3>
                             <h4>IMDb Rating</h4>
@@ -187,6 +191,18 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-4 text-center">
+                <div class="thumbnail">
+                    <img class="img-responsive" src=" {{ url_for('static',filename=tomato_img) }} " alt="">
+                    <div class="caption">
+                        <h3>Rating: {{ tomato_rating }}</h3>
+                            <h4>Rotten Tomatoes Rating</h4>
+                        
+                        <p>Retrieved from Rotten Tomatoes.</p>
+                    </div>
+                </div>
+            </div>
+        </center>
         </div>
         <!-- /.row -->
 
