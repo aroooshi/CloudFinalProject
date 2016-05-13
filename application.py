@@ -99,13 +99,14 @@ def search():
 	print len(youtube_comments)
 	twitter_score = 0
 	youtube_score = 0
+	global twitter_sample
+	twitter_sample = []
 	if len(twitter_comments) > 0:
 		k = spamclass(twitter_comments[:500],clf2,df10,wordcount2)
 		twitter_pos = float(0)
 		twitter_neutral = float(0)
 		twitter_neg = float(0)
 		count = 0
-		twitter_sample = []
 		i = 0
 		for sen in k:
 			data = urllib.urlencode({"text": sen.encode('utf-8')})
@@ -133,13 +134,14 @@ def search():
 	else:
 		print "No tweets"
 	#df10 = df110.transpose()
+	global youtube_sample
+	youtube_sample = []
 	if len(youtube_comments) > 0:
 		k = spamclass(youtube_comments[:500],clf2,df10,wordcount2)
 		youtube_pos = float(0)
 		youtube_neutral = float(0)
 		youtube_neg = float(0)
 		count = 0
-		youtube_sample = []
 		i = 0
 		for sen in k:
 			data = urllib.urlencode({"text": sen.encode('utf-8')})
@@ -182,11 +184,11 @@ def search():
 	youtube_rating = youtube_score*10
 	twitter_rating = twitter_score*10
 	if youtube_rating == 0:
-		overall_rating = twitter_rating
+		overall_rating = float_formatter(twitter_rating)
 		youtube_img = "Images/NA.png"
 		twitter_img = "Images/" + str(math.trunc(twitter_rating)) + ".png"
 	elif twitter_rating == 0:
-		overall_rating = youtube_rating
+		overall_rating = float_formatter(youtube_rating)
 		twitter_img = "Images/NA.png"
 		youtube_img = "Images/" + str(math.trunc(youtube_rating)) + ".png"
 	else:
@@ -201,7 +203,8 @@ def search():
 	if (tomato_rating=="N/A"):
 		tomato_rating = tomato_rating.replace("/", "")
 	
-	overall_img = "Images/" + str(math.trunc(overall_rating)) + ".png"
+	overall_rating = str(overall_rating)
+	overall_img = "Images/" + overall_rating.split('.', 1)[0] + ".png"
 	imdb_img = "Images/" + imdb_rating.split('.', 1)[0] + ".png"
 	tomato_img = "Images/" + tomato_rating.split('.', 1)[0] + ".png"
 	return render_template('ratings.html', keyword=term, plot=plot, imdb_rating=imdb_rating, youtube_rating=youtube_rating, \
@@ -212,19 +215,23 @@ def search():
 def twitter():
 	term = session.get('keyword', None)
 	comment_list = []
-	
+	float_formatter = lambda x: "%.1f" % x
+	global twitter_sample
 	for item in twitter_sample:
-		each_comment = []
-		each_comment['text'] = item[0]
-		each_comment['rating'] = item[1]
-		each_comment['img'] = "Images/" + item[1].split('.', 1)[0] + ".png"
-		comment_list.append(each_comment)
+		img = "Images/" + str(math.trunc(item[1])) + ".png"
+		comment_list.append({"text": item[0], "rating": float_formatter(float(item[1])), "img":img})
 
 	return render_template('twitter.html', keyword=term, twitter_comment=comment_list)
 
 @app.route('/youtube')
 def youtube():
 	term = session.get('keyword', None)
+	comment_list = []
+	float_formatter = lambda x: "%.1f" % x
+	global youtube_sample
+	for item in youtube_sample:
+		img = "Images/" + str(math.trunc(item[1])) + ".png"
+		comment_list.append({"text": item[0], "rating": float_formatter(float(item[1])), "img":img})
 	return render_template('youtube.html', keyword=term, youtube_comment=comment_list)
 
 
